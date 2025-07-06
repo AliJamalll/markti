@@ -1,0 +1,77 @@
+import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
+import 'package:markti/core/failures/failure.dart';
+import 'package:markti/features/auth/domain/entities/login_response_entity.dart';
+import 'package:markti/features/auth/domain/entities/register_repspons_intity.dart';
+import 'package:markti/features/auth/domain/use_cases/login_usecase.dart';
+import 'package:markti/features/auth/domain/use_cases/register_usecase.dart';
+import 'package:markti/features/auth/domain/use_cases/send_password_email.dart';
+import 'package:meta/meta.dart';
+
+import '../../domain/entities/send_password_email_entity.dart';
+
+part 'auth_state.dart';
+
+@injectable
+class AuthCubit extends Cubit<AuthState> {
+  AuthCubit({required this.registerUseCase, required this.loginUseCase,required this.sendPasswordEmailUseCase})
+    : super(AuthInitial());
+  RegisterUseCase registerUseCase;
+  LoginUseCase loginUseCase;
+  SendPasswordEmailUseCase sendPasswordEmailUseCase;
+
+  ///for register
+  TextEditingController nameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  ///for login
+  TextEditingController emailLoginController = TextEditingController(text: "aloaaa971@gmail.com");
+  TextEditingController passwordLoginController = TextEditingController(text: "As@123456");
+
+  ///for forget password
+  TextEditingController emailForgetPasswordController = TextEditingController(text: "aloaaa971@gmail.com");
+
+  void Register() async {
+    emit(RegisterLoading());
+    var either = await registerUseCase.invoke(
+      userNameController.text,
+      emailController.text,
+      phoneController.text,
+      passwordController.text,
+      confirmPasswordController.text,
+    );
+
+    either.fold(
+      (e) => {emit(RegisterError(errorMessage: e))},
+      (r) => {emit(RegisterSuccess(registerResponseEntity: r))},
+    );
+  }
+
+  void Login() async {
+    emit(LoginLoading());
+    var either = await loginUseCase.invoke(
+      emailLoginController.text,
+      passwordLoginController.text,
+    );
+    either.fold(
+      (e) => {emit(LoginError(errorMessage: e))},
+      (r) => {emit(LoginSuccess(loginResponseEntity: r))},
+    );
+  }
+
+  void sendResetPassword()async{
+    emit(SendResetPasswordLoading());
+    var eihter = await sendPasswordEmailUseCase.invoke(emailForgetPasswordController.text);
+    eihter.fold((e) => {
+      emit(SendResetPasswordError(errorMessage: e))
+    }, (r) => {
+      emit(SendResetPasswordSuccess(sendPasswordEmailEntity: r))
+    });
+
+  }
+}

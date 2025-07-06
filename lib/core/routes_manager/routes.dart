@@ -8,5 +8,6 @@ class Routes {
   static const String code = "/code";
   static const String CreateNewPassword = "/CreateNewPassword";
   static const String Congratulations = "/Congratulations";
+  static const String homePage = "/homePage";
 
 }

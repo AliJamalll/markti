@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:markti/core/routes_manager/routes.dart';
+import 'package:markti/features/main_layout/presentation/pages/home_page.dart';
 import 'package:markti/features/on_boarding/on_boarding_screen.dart';
 import 'package:markti/features/on_boarding/splash_screen.dart';
 
@@ -10,6 +11,7 @@ import '../../features/auth/presentation/pages/forget_password_by_email_screen.d
 import '../../features/auth/presentation/pages/forget_password_by_phone_screen.dart';
 import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
+import '../../features/auth/presentation/pages/verify_email_code_screen.dart';
 import '../../features/auth/presentation/pages/verify_phone_code_screen.dart';
 
 class RouteGenerator{
@@ -28,20 +30,27 @@ class RouteGenerator{
         case Routes.signUp:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
 
-        case Routes.forgetPasswordPhone:
-        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+        // case Routes.forgetPasswordPhone:
+        // return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
 
       case Routes.forgetPasswordEmail:
         return MaterialPageRoute(builder: (_) => ForgetPasswordByEmailScreen());
 
       case Routes.code:
-        return MaterialPageRoute(builder: (_) => VerifyCodeScreen());
+        final email = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => VerifyEmailCodeScreen(email: email),
+        );
+
 
       case Routes.CreateNewPassword:
         return MaterialPageRoute(builder: (_) => CreateNewPasswordScreen());
 
         case Routes.Congratulations:
         return MaterialPageRoute(builder: (_) => CongratulationsScreen());
+
+        case Routes.homePage:
+        return MaterialPageRoute(builder: (_) => HomePage());
 
       default:
         return unDefinedRoute();
