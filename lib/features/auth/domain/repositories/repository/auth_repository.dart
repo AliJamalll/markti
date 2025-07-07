@@ -1,6 +1,8 @@
 import 'package:markti/core/failures/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:markti/features/auth/domain/entities/active_reset_password_response_entity.dart';
 import 'package:markti/features/auth/domain/entities/login_response_entity.dart';
+import 'package:markti/features/auth/domain/entities/new_password_response_entity.dart';
 import 'package:markti/features/auth/domain/entities/register_repspons_intity.dart';
 import 'package:markti/features/auth/domain/entities/send_password_email_entity.dart';
 
@@ -21,5 +23,17 @@ abstract class AuthRepository{
 
   Future<Either<Failure,SendPasswordEmailEntity>> sendResetPassword(
       String email,
+      );
+
+  Future<Either<Failure,ActiveResetPasswordResponseEntity>> activeResetPassword(
+      String email,
+      String code,
+      String message,
+      );
+
+  Future<Either<Failure,NewPasswordResponseEntity>> newPasswordEntity(
+      String email,
+      String password,
+      String confirmPassword,
       );
 }

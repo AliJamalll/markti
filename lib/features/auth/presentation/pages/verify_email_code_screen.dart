@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:markti/core/di/di.dart';
+import 'package:markti/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../core/constants/styles.dart';
@@ -11,7 +15,8 @@ import '../../../../core/routes_manager/routes.dart';
 import '../../../../core/widget/custom_elevated_button.dart';
 
 class VerifyEmailCodeScreen extends StatefulWidget {
-  const VerifyEmailCodeScreen({super.key,required this.email});
+  const VerifyEmailCodeScreen({super.key, required this.email});
+
   final String? email;
 
   @override
@@ -19,73 +24,97 @@ class VerifyEmailCodeScreen extends StatefulWidget {
 }
 
 class _VerifyEmailCodeScreenState extends State<VerifyEmailCodeScreen> {
-  StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
+  StreamController<ErrorAnimationType> errorController = StreamController<
+      ErrorAnimationType>();
   String currentText = "";
   TextEditingController textEditingController = TextEditingController();
+  AuthCubit activeResetPassword = getIt<AuthCubit>();
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(title: const Text("Forgot Password")),
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(ImageAssets.forgetPassword3),
-                  const SizedBox(height: 22),
-                  Text(
-                    "\t\t\t\t\t\tPlease enter the 4 digit code\n    sent to:  ${widget.email}",
-                    style: textStyles.font14navyMedium,
-                  ),
-                  SizedBox(height: 10.h),
-                  PinCodeTextField(
-                    length: 6,
-                    obscureText: false,
-                    animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      activeFillColor: Colors.white,
+    return BlocListener<AuthCubit, AuthState>(
+      bloc: activeResetPassword,
+      listener: (context, state) {
+        if(state is ActiveResetPasswordLoading){
+          EasyLoading.show(status: "Loading");
+        }else if(state is ActiveResetPasswordError){
+          EasyLoading.dismiss();
+          EasyLoading.showError(state.errorMessage.messageEn ?? "error");
+        }else if(state is ActiveResetPasswordSuccess){
+          EasyLoading.dismiss();
+          EasyLoading.showSuccess("Active password success");
+          Navigator.pushNamedAndRemoveUntil(context,
+              Routes.CreateNewPassword,
+                  (route) => false
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Forgot Password")),
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(ImageAssets.forgetPassword3),
+                    const SizedBox(height: 22),
+                    Text(
+                      "\t\t\t\t\t\tPlease enter the 4 digit code\n    sent to:  ${widget
+                          .email}",
+                      style: textStyles.font14navyMedium,
                     ),
-                    animationDuration: Duration(milliseconds: 300),
-                    //backgroundColor: Colors.blue.shade50,
-                    enableActiveFill: true,
-                    errorAnimationController: errorController,
-                    controller: textEditingController,
-                    onCompleted: (v) {
-                      print("Completed");
-                    },
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        currentText = value;
-                      });
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return true;
-                    }, appContext: context,
-                  ),
-                  SizedBox(height: 10.h),
-                  CustomElevatedButton(onTap: () {}, label: 'Verify Code'),
-                  TextButton(
-                    onPressed: () {
-                    },
-                    child: Text(
-                      "resend code",
-                      style: textStyles.font16blueSemiBold,
+                    SizedBox(height: 10.h),
+                    PinCodeTextField(
+                      length: 6,
+                      obscureText: false,
+                      animationType: AnimationType.fade,
+                      pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 50,
+                        fieldWidth: 40,
+                        activeFillColor: Colors.white,
+                      ),
+                      animationDuration: Duration(milliseconds: 300),
+                      //backgroundColor: Colors.blue.shade50,
+                      enableActiveFill: true,
+                      errorAnimationController: errorController,
+                      controller: activeResetPassword.codeActiveResetPasswordController,
+                      onCompleted: (v) {
+                        print("Completed");
+                      },
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          currentText = value;
+                        });
+                      },
+                      beforeTextPaste: (text) {
+                        print("Allowing to paste $text");
+                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                        return true;
+                      },
+                      appContext: context,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 10.h),
+                    CustomElevatedButton(onTap: () {
+                      activeResetPassword.activeResetPassword();
+                    }, label: 'Verify Code'),
+                    TextButton(
+                      onPressed: () {
+                        activeResetPassword.sendResetPassword();
+                      },
+                      child: Text(
+                        "resend code",
+                        style: textStyles.font16blueSemiBold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

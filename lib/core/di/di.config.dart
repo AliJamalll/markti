@@ -20,7 +20,11 @@ import '../../features/auth/domain/repositories/data_source/remote_data_source/a
     as _i849;
 import '../../features/auth/domain/repositories/repository/auth_repository.dart'
     as _i154;
+import '../../features/auth/domain/use_cases/active_reset_password_usecase.dart'
+    as _i924;
 import '../../features/auth/domain/use_cases/login_usecase.dart' as _i1012;
+import '../../features/auth/domain/use_cases/new_password_usecase.dart'
+    as _i358;
 import '../../features/auth/domain/use_cases/register_usecase.dart' as _i957;
 import '../../features/auth/domain/use_cases/send_password_email.dart'
     as _i1043;
@@ -54,11 +58,22 @@ extension GetItInjectableX on _i174.GetIt {
         authRepository: gh<_i154.AuthRepository>(),
       ),
     );
+    gh.factory<_i924.ActiveResetPasswordUseCase>(
+      () => _i924.ActiveResetPasswordUseCase(
+        authRepository: gh<_i154.AuthRepository>(),
+      ),
+    );
+    gh.factory<_i358.NewPasswordUseCase>(
+      () =>
+          _i358.NewPasswordUseCase(authRepository: gh<_i154.AuthRepository>()),
+    );
     gh.factory<_i888.AuthCubit>(
       () => _i888.AuthCubit(
         registerUseCase: gh<_i957.RegisterUseCase>(),
         loginUseCase: gh<_i1012.LoginUseCase>(),
         sendPasswordEmailUseCase: gh<_i1043.SendPasswordEmailUseCase>(),
+        activeResetPasswordUseCase: gh<_i924.ActiveResetPasswordUseCase>(),
+        newPasswordUseCase: gh<_i358.NewPasswordUseCase>(),
       ),
     );
     return this;
