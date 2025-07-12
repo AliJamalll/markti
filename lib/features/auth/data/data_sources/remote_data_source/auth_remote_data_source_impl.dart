@@ -27,15 +27,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, RegisterResponseDm>> register(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String confirmPassword,
-  ) async {
+      String name,
+      String email,
+      String phone,
+      String password,
+      String confirmPassword,
+      ) async {
     try {
       final List<ConnectivityResult> connectivityResult =
-          await Connectivity().checkConnectivity();
+      await Connectivity().checkConnectivity();
       if (connectivityResult.contains(ConnectivityResult.wifi) ||
           connectivityResult.contains(ConnectivityResult.mobile)) {
         var response = await apiManager.postData(
@@ -51,7 +51,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
         var registerResponse = RegisterResponseDm.fromJson(response.data);
 
-        if (response.statusCode! >= 200 || response.statusCode! < 300) {
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
           return Right(registerResponse);
         } else {
           return Left(
@@ -74,7 +74,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         ServerFailure(
           message: dioException.response?.data['message'] ?? "unknown error",
           statusCode:
-              dioException.response?.statusCode.toString() ?? "unknown error",
+          dioException.response?.statusCode.toString() ?? "unknown error",
         ),
       );
     }
@@ -82,12 +82,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, LoginResponseDm>> login(
-    String email,
-    String password,
-  ) async {
+      String email,
+      String password,
+      ) async {
     try {
       final List<ConnectivityResult> connectivityResult =
-          await Connectivity().checkConnectivity();
+      await Connectivity().checkConnectivity();
       if (connectivityResult.contains(ConnectivityResult.wifi) ||
           connectivityResult.contains(ConnectivityResult.mobile)) {
         var response = await apiManager.postData(
@@ -96,7 +96,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         );
         var loginResponse = LoginResponseDm.fromJson(response.data);
 
-        if (response.statusCode! >= 200 || response.statusCode! < 300) {
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
           return Right(loginResponse);
         } else {
           return Left(
@@ -119,7 +119,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         ServerFailure(
           message: dioException.response?.data['message'] ?? "unknown error",
           statusCode:
-              dioException.response?.statusCode.toString() ?? "unknown error",
+          dioException.response?.statusCode.toString() ?? "unknown error",
         ),
       );
     }
@@ -127,8 +127,8 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, SendPasswordEmailDm>> sendResetPassword(
-    String email,
-  ) async{
+      String email,
+      ) async{
     try {
       final List<ConnectivityResult> connectivityResult = await  Connectivity().checkConnectivity();
       if(connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile)){
@@ -165,17 +165,24 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, ActiveResetPasswordResponseDm>> activeResetPassword(String email, String code, String message) async{
-    try{
+  Future<Either<Failure, ActiveResetPasswordResponseDm>> activeResetPassword(String email, String code, String message) async {
+    try {
       final List<ConnectivityResult> connectivityResult = await Connectivity().checkConnectivity();
-      if(connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile)) {
-        var response = await apiManager.postData(endPoint: EndPoints.activeResetPassword,data: {
-          "email": email,
-          "code": code,
-          "message": message,
-        });
-        var activeResetPassword= ActiveResetPasswordResponseDm.fromJson(response.data);
-        if(response.statusCode! >= 200 || response.statusCode! < 300){
+      if (connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile)) {
+        var response = await apiManager.postData(
+          endPoint: EndPoints.activeResetPassword,
+          data: {
+            "email": email,
+            "code": code,
+            "message": message,
+          },
+        );
+
+        print("📦 API response: ${response.data}");
+
+        var activeResetPassword = ActiveResetPasswordResponseDm.fromJson(response.data);
+
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
           return Right(activeResetPassword);
         } else {
           return Left(
@@ -185,7 +192,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
             ),
           );
         }
-      }else {
+      } else {
         return Left(
           ServerFailure(
             message: "please check your internet",
@@ -193,15 +200,16 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           ),
         );
       }
-      }on DioException catch (dioException) {
+    } on DioException catch (dioException) {
+      print("❌ Dio Error: ${dioException.response?.data}");
       return Left(
         ServerFailure(
           message: dioException.response?.data['message'] ?? "unknown error",
-          statusCode:
-          dioException.response?.statusCode.toString() ?? "unknown error",
+          statusCode: dioException.response?.statusCode.toString() ?? "unknown error",
         ),
       );
     } catch (e) {
+      print("❌ General Error: $e");
       return Left(
         ServerFailure(
           message: e.toString(),
@@ -211,39 +219,75 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     }
   }
 
+
   @override
-  Future<Either<Failure, NewPaaswordResponseDm>> newPasswordEntity(String email, String password, String confirmPassword)async {
-   try{
-     final List<ConnectivityResult> connectivityResult = await Connectivity().checkConnectivity();
-     if(connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile)){
-       var response = await apiManager.postData(endPoint: EndPoints.newPassword);
-       var newPasswordResponse = NewPaaswordResponseDm.fromJson(response.data);
-       if(response! .statusCode! >= 200 || response.statusCode! < 300){
-         return Right(newPasswordResponse);
-       } else {
-         return Left(
-           ServerFailure(
-             message: newPasswordResponse.message,
-             statusCode: response.statusCode.toString(),
-           ),
-         );
-       }
-     }else{
-       return Left(
-         ServerFailure(
-           message: "please check your internet",
-           statusCode: "no internet connection",
-         ),
-       );
-     }
-   }on DioException catch (dioException){
-     return Left(
-       ServerFailure(
-         message: dioException.response?.data['message'] ?? "unknown error",
-         statusCode:
-         dioException.response?.statusCode.toString() ?? "unknown error",
-       ),
-     );
-   }
+  Future<Either<Failure, NewPaaswordResponseDm>> newPasswordEntity(
+      String email, String password, String confirmPassword) async {
+    try {
+      final List<ConnectivityResult> connectivityResult =
+      await Connectivity().checkConnectivity();
+
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
+        var response = await apiManager.postData(
+          endPoint: EndPoints.newPassword,
+          data: {
+            "email": email,
+            "password": password,
+            "confirmPassword": confirmPassword,
+          },
+        );
+
+        var newPasswordResponse = NewPaaswordResponseDm.fromJson(response.data);
+
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(newPasswordResponse);
+        } else {
+          return Left(
+            ServerFailure(
+              message: newPasswordResponse.message ?? "Unknown Error",
+              statusCode: response.statusCode.toString(),
+            ),
+          );
+        }
+      } else {
+        return Left(
+          ServerFailure(
+            message: "Please check your internet",
+            statusCode: "no internet connection",
+          ),
+        );
+      }
+    } on DioException catch (dioException) {
+      final data = dioException.response?.data;
+
+      print("❌ DioException: ${dioException.message}");
+      print("📦 Dio data type: ${data.runtimeType}");
+      print("📦 Dio response body: $data");
+
+      String message = "Unknown error";
+
+      if (data is Map<String, dynamic>) {
+        message = data['message'] ?? data['error'] ?? data['detail'] ?? "Unknown error";
+      } else if (data is String) {
+        message = data;
+      }
+
+      return Left(
+        ServerFailure(
+          message: message,
+          statusCode: dioException.response?.statusCode.toString() ?? "unknown",
+        ),
+      );
+    } catch (e,stackTrace) {
+      print("❌ General Error: $e");
+      print("📍 Stack trace:\n$stackTrace");
+      return Left(
+        ServerFailure(
+          message: "Unexpected error",
+          statusCode: "500",
+        ),
+      );
+    }
   }
 }

@@ -22,6 +22,8 @@ static const String facebook = "assets/icons/Facebok_Icon.png";
 static const String apple = "assets/icons/Apple_Icon.png";
 static const String google = "assets/icons/Google_Icon.png";
 
+static const String ali = "assets/images/ali.jpeg";
+static const String scrolled_pic = "assets/images/Scrolled_Offer.png";
 
 
 }

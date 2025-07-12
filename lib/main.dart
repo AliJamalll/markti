@@ -25,7 +25,7 @@ void main() async{
   if(token == null){
     routeName = Routes.onBoarding;
   }else{
-    routeName = Routes.homePage;
+    routeName = Routes.mainLayout;
   }
   runApp( MyApp(routeName: routeName,));
   configLoading();

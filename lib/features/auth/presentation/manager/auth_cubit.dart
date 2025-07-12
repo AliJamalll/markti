@@ -47,14 +47,12 @@ class AuthCubit extends Cubit<AuthState> {
       text: "aloaaa971@gmail.com");
 
   ///for active reset password
-  TextEditingController emailActiveResetPasswordController = TextEditingController(
-      text: "aloaaa971@gmail.com");
+  TextEditingController emailActiveResetPasswordController = TextEditingController();
   TextEditingController codeActiveResetPasswordController = TextEditingController();
   TextEditingController messageActiveResetPasswordController = TextEditingController();
 
   ///for new password
-  TextEditingController email = TextEditingController(
-      text: "aloaaa971@gmail.com");
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
@@ -115,12 +113,27 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void newPassword() async {
+    print("⏳ Starting newPassword usecase...");
     emit(NewPasswordLoading());
-    var either = await newPasswordUseCase.invoke(email.text, password.text, confirmPassword.text);
-    either.fold((e) => {
-      emit(NewPasswordError(errorMessage: e))
-    }, (r)=> {
-      emit(NewPasswordSuccess(newPasswordResponseEntity: r))
-    });
+
+    var either = await newPasswordUseCase.invoke(
+      email.text,
+      password.text,
+      confirmPassword.text,
+    );
+
+    print("✅ Result received, folding...");
+
+    either.fold(
+          (e) {
+        print("❌ Error: ${e.messageEn}");
+        emit(NewPasswordError(errorMessage: e));
+      },
+          (r) {
+        print("✅ Success: ${r.message}");
+        emit(NewPasswordSuccess(newPasswordResponseEntity: r));
+      },
+    );
   }
+
 }

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:markti/core/routes_manager/routes.dart';
 import 'package:markti/features/main_layout/presentation/pages/home_page.dart';
+import 'package:markti/features/main_layout/presentation/pages/popular_products.dart';
 import 'package:markti/features/on_boarding/on_boarding_screen.dart';
 import 'package:markti/features/on_boarding/splash_screen.dart';
+import 'package:markti/mian_layout.dart';
 
 import '../../features/auth/presentation/pages/congratulations_screen.dart';
 import '../../features/auth/presentation/pages/create_new_password_screen.dart';
@@ -18,20 +20,20 @@ class RouteGenerator{
   static Route<dynamic> getRoute(RouteSettings settings){
     switch(settings.name){
 
-    case Routes.splash:
-    return MaterialPageRoute(builder: (_) => SplashScreen());
+      case Routes.splash:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
 
       case Routes.onBoarding:
         return MaterialPageRoute(builder: (_) => OnBoardingScreen());
 
-        case Routes.signIn:
+      case Routes.signIn:
         return MaterialPageRoute(builder: (_) => LoginScreen());
 
-        case Routes.signUp:
+      case Routes.signUp:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
 
-        // case Routes.forgetPasswordPhone:
-        // return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+    // case Routes.forgetPasswordPhone:
+    // return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
 
       case Routes.forgetPasswordEmail:
         return MaterialPageRoute(builder: (_) => ForgetPasswordByEmailScreen());
@@ -44,13 +46,23 @@ class RouteGenerator{
 
 
       case Routes.CreateNewPassword:
-        return MaterialPageRoute(builder: (_) => CreateNewPasswordScreen());
+        final email = settings.arguments as String?;
+        return MaterialPageRoute(builder: (_) => CreateNewPasswordScreen(email: email!));
 
-        case Routes.Congratulations:
+      case Routes.Congratulations:
         return MaterialPageRoute(builder: (_) => CongratulationsScreen());
 
-        case Routes.homePage:
-        return MaterialPageRoute(builder: (_) => HomePage());
+      case Routes.mainLayout:
+        return MaterialPageRoute(builder: (_) => MainLayout());
+
+    // case Routes.homePage:
+    // return MaterialPageRoute(builder: (_) => HomePage());
+
+      case Routes.popular_products:
+        return MaterialPageRoute(builder: (_) => PopularProducts());
+
+    // case Routes.searchPage:
+    // return MaterialPageRoute(builder: (_) => SearchPage());
 
       default:
         return unDefinedRoute();

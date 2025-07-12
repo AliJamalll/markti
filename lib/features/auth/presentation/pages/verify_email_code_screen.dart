@@ -23,12 +23,22 @@ class VerifyEmailCodeScreen extends StatefulWidget {
   State<VerifyEmailCodeScreen> createState() => _VerifyEmailCodeScreenState();
 }
 
+
 class _VerifyEmailCodeScreenState extends State<VerifyEmailCodeScreen> {
   StreamController<ErrorAnimationType> errorController = StreamController<
       ErrorAnimationType>();
   String currentText = "";
   TextEditingController textEditingController = TextEditingController();
   AuthCubit activeResetPassword = getIt<AuthCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.email != null && widget.email!.isNotEmpty) {
+      activeResetPassword.emailActiveResetPasswordController.text = widget.email!;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +55,7 @@ class _VerifyEmailCodeScreenState extends State<VerifyEmailCodeScreen> {
           EasyLoading.showSuccess("Active password success");
           Navigator.pushNamedAndRemoveUntil(context,
               Routes.CreateNewPassword,
-                  (route) => false
+                  (route) => false,arguments: activeResetPassword.emailActiveResetPasswordController.text
           );
         }
       },
@@ -102,6 +112,8 @@ class _VerifyEmailCodeScreenState extends State<VerifyEmailCodeScreen> {
                     ),
                     SizedBox(height: 10.h),
                     CustomElevatedButton(onTap: () {
+                      print("EMAIL: ${activeResetPassword.emailActiveResetPasswordController.text}");
+                      print("CODE: ${activeResetPassword.codeActiveResetPasswordController.text}");
                       activeResetPassword.activeResetPassword();
                     }, label: 'Verify Code'),
                     TextButton(

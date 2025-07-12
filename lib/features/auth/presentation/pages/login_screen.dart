@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
           await secureStorage.write(key: "token", value: state.loginResponseEntity.token);
           Navigator.pushNamedAndRemoveUntil(
             context,
-            Routes.homePage,
+            Routes.mainLayout,
             (route) => false,
           );
         }

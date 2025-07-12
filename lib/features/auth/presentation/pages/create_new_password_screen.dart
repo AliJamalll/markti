@@ -13,10 +13,24 @@ import '../../../../core/widget/custom_elevated_button.dart';
 import '../../../../core/widget/main_text_field.dart';
 import '../../../../core/widget/validators.dart';
 
-class CreateNewPasswordScreen extends StatelessWidget {
-  CreateNewPasswordScreen({super.key});
+class CreateNewPasswordScreen extends StatefulWidget {
+  CreateNewPasswordScreen({super.key,required this.email});
+  final String email;
 
+  @override
+  State<CreateNewPasswordScreen> createState() => _CreateNewPasswordScreenState();
+}
+
+class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   AuthCubit newPasswordCubit = getIt<AuthCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.email != null && widget.email.isNotEmpty) {
+      newPasswordCubit.email.text = widget.email;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +50,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                   (route) => false
           );
         }
-        },
+      },
       child: Scaffold(
         appBar: AppBar(title: const Text("Create New Password")),
         body: SafeArea(
