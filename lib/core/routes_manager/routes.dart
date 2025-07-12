@@ -11,5 +11,9 @@ class Routes {
   static const String mainLayout = "/mainLayout";
   // static const String homePage = "/homePage";
   static const String popular_products = "/popular_products";
+  static const String categories = "/categories";
+  static const String brands = "/brands";
+  static const String buyAgain = "/buyAgain";
+  static const String checkOut = "/checkOut";
 
 }

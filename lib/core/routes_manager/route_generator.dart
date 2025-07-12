@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:markti/core/routes_manager/routes.dart';
+import 'package:markti/features/main_layout/presentation/pages/brand_page.dart';
+import 'package:markti/features/main_layout/presentation/pages/buy_again_page.dart';
+import 'package:markti/features/main_layout/presentation/pages/check_out_page.dart';
 import 'package:markti/features/main_layout/presentation/pages/home_page.dart';
 import 'package:markti/features/main_layout/presentation/pages/popular_products.dart';
 import 'package:markti/features/on_boarding/on_boarding_screen.dart';
@@ -15,6 +18,7 @@ import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
 import '../../features/auth/presentation/pages/verify_email_code_screen.dart';
 import '../../features/auth/presentation/pages/verify_phone_code_screen.dart';
+import '../../features/main_layout/presentation/pages/categories_page.dart';
 
 class RouteGenerator{
   static Route<dynamic> getRoute(RouteSettings settings){
@@ -60,6 +64,18 @@ class RouteGenerator{
 
       case Routes.popular_products:
         return MaterialPageRoute(builder: (_) => PopularProducts());
+
+        case Routes.categories:
+        return MaterialPageRoute(builder: (_) => CategoriesPage());
+
+        case Routes.brands:
+        return MaterialPageRoute(builder: (_) => BrandPage());
+
+        case Routes.buyAgain:
+        return MaterialPageRoute(builder: (_) => BuyAgainPage());
+
+        case Routes.checkOut:
+        return MaterialPageRoute(builder: (_) => CheckOutPage());
 
     // case Routes.searchPage:
     // return MaterialPageRoute(builder: (_) => SearchPage());

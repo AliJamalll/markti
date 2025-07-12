@@ -6,7 +6,7 @@ import 'package:markti/core/resources/color_manager.dart';
 import '../../../../core/constants/colors.dart';
 
 class CustomProductsScrollableWidget extends StatefulWidget {
-   CustomProductsScrollableWidget({super.key,});
+  CustomProductsScrollableWidget({super.key,});
 
   @override
   State<CustomProductsScrollableWidget> createState() => _CustomProductsScrollableWidgetState();
@@ -23,14 +23,13 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
     return Stack(
       children: [
         Container(
-          width: 160.w,
+          width: 170.w,
           height: 170.h,
           decoration: BoxDecoration(
             color: appColors.KPlightBlue,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 105.h,),
@@ -72,12 +71,12 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
           ),
         ),
         Positioned(
-          top: 10.h,
+            top: 10.h,
             left: 10.w,
             right: 10.w,
             child: Container(
-        height: 96.h,
-        width: 152.w,
+              height: 96.h,
+              width: 152.w,
               decoration: BoxDecoration(
                 color: appColors.KPnavy,
                 borderRadius: BorderRadius.circular(5),
@@ -93,11 +92,11 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
                       Center(child: Icon(Icons.broken_image)),
                 ),
               ),
-        )
+            )
         ),
         Positioned(
-          top: 20.h,
-          right: 20.w,
+            top: 20.h,
+            right: 20.w,
             child: Container(
               width: 30.w,
               height: 30.h,

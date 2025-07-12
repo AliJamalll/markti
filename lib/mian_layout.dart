@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markti/core/constants/colors.dart';
+import 'package:markti/features/main_layout/presentation/pages/cart_screen.dart';
+import 'package:markti/features/main_layout/presentation/pages/favorite_screen.dart';
 import 'package:markti/features/main_layout/presentation/pages/home_page.dart';
 
 import 'core/resources/color_manager.dart';
@@ -14,7 +16,8 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   List<Widget> screens = [
     HomePage(),
-
+    CartScreen(),
+    FavoriteScreen()
   ];
 
   int currentIndex = 0;

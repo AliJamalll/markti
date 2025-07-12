@@ -92,14 +92,28 @@ class HomePage extends StatelessWidget {
                   children: [
                     Text("Category",style: textStyles.font20navySemiBold,),
                     Spacer(),
-                    TextButton(onPressed: (){},
+                    TextButton(onPressed: (){
+                      Navigator.pushNamed(context, Routes.categories);
+                    },
                       child: Text("View All",style: textStyles.font16blueSemiBold,),
                     )
                   ],
                 ),
                 SizedBox(
                     height: 270.h,
-                    child: CustomCategoryScrollableWidget()),
+                    child: GridView.builder(
+                      itemCount: 8,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.zero,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 50.0,
+                        crossAxisSpacing: 1.0,
+                        childAspectRatio: 1.5,
+                      ),
+                      itemBuilder: (context,index) => CustomCategoryScrollableWidget(),
+                ),
+                ),
                 SizedBox(
                   height: 5.h,
                 ),
@@ -107,7 +121,9 @@ class HomePage extends StatelessWidget {
                   children: [
                     Text("Brands",style: textStyles.font20navySemiBold,),
                     Spacer(),
-                    TextButton(onPressed: (){},
+                    TextButton(onPressed: (){
+                      Navigator.pushNamed(context, Routes.brands);
+                    },
                       child: Text("View All",style: textStyles.font16blueSemiBold,),
                     )
                   ],
@@ -127,7 +143,9 @@ class HomePage extends StatelessWidget {
                   children: [
                     Text("Buy Again",style: textStyles.font20navySemiBold,),
                     Spacer(),
-                    TextButton(onPressed: (){},
+                    TextButton(onPressed: (){
+                      Navigator.pushNamed(context, Routes.buyAgain);
+                    },
                       child: Text("View All",style: textStyles.font16blueSemiBold,),
                     )
                   ],

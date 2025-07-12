@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:markti/core/resources/assets_manager.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
+import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/main_text_field.dart';
 import '../widgets/custom_products_scrollable_widget.dart';
 
-class PopularProducts extends StatelessWidget {
-  const PopularProducts({super.key});
+class FavoriteScreen extends StatelessWidget {
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(pageName: "Popular Products",),
+        appBar: CustomAppBar(pageName: "Favorites",),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
