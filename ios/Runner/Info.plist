@@ -47,5 +47,27 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>GMSApiKey</key>
+    	<string>AIzaSyC6IG2wnuG88_p1tIM5QHkaVqtu1ufi73Y</string>
+
+    	<!-- Location Permissions -->
+    	<key>NSLocationWhenInUseUsageDescription</key>
+    	<string>We need your location to show delivery address</string>
+    	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    	<string>We need your location</string>
+    	<key>NSLocationAlwaysUsageDescription</key>
+    	<string>We need your location to provide better delivery services.</string>
+
+    	<!-- Local Network Permission -->
+    	<key>NSLocalNetworkUsageDescription</key>
+        <string>This app needs local network access for debugging</string>
+
+    	<!-- Face ID (optional, if you use it) -->
+    	<key>NSFaceIDUsageDescription</key>
+    	<string>Need access to secure storage</string>
+
+    	<!-- Flutter map support -->
+    	<key>io.flutter.embedded_views_preview</key>
+    	<true/>
 </dict>
 </plist>

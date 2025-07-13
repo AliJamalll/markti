@@ -6,6 +6,7 @@ import 'package:markti/core/constants/styles.dart';
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/custom_elevated_button.dart';
 import '../../../../core/widget/main_text_field.dart';
+import '../widgets/map_widget.dart';
 
 class CheckOutPage extends StatelessWidget {
   const CheckOutPage({super.key});
@@ -67,6 +68,8 @@ class CheckOutPage extends StatelessWidget {
                             border: Border.all(color: appColors.KPnavy,width: 1)
             
                         ),
+                        ///TODO: add map here
+                        child: LocationPickerScreen(),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0,right: 8.0),
