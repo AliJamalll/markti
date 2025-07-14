@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:markti/core/constants/colors.dart';
 import 'package:markti/core/constants/styles.dart';
 
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/custom_elevated_button.dart';
 import '../../../../core/widget/main_text_field.dart';
-import '../widgets/map_widget.dart';
+import '../widgets/map_widget.dart'; // فيها LocationPickerScreen
 
-class CheckOutPage extends StatelessWidget {
+class CheckOutPage extends StatefulWidget {
   const CheckOutPage({super.key});
+
+  @override
+  State<CheckOutPage> createState() => _CheckOutPageState();
+}
+
+class _CheckOutPageState extends State<CheckOutPage> {
+  LatLng? selectedLocation;
 
   Widget dashedDivider({
     double dashWidth = 8,
@@ -37,6 +45,18 @@ class CheckOutPage extends StatelessWidget {
     );
   }
 
+  void _openMapScreen() async {
+    final LatLng? location = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LocationPickerScreen()),
+    );
+
+    if (location != null) {
+      setState(() {
+        selectedLocation = location;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,95 +67,76 @@ class CheckOutPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
-              spacing: 10.h,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Address",style: textStyles.font20navySemiBold,),
+                Text("Address", style: textStyles.font20navySemiBold),
                 Container(
                   width: double.infinity,
-                  height: 220.h,
+                  padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: appColors.KPnavy,width: 1)
+                    border: Border.all(color: appColors.KPnavy, width: 1),
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: 120.h,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(14),topRight: Radius.circular(14)),
-                            border: Border.all(color: appColors.KPnavy,width: 1)
-            
-                        ),
-                        ///TODO: add map here
-                        child: LocationPickerScreen(),
+                      ElevatedButton.icon(
+                        onPressed: _openMapScreen,
+                        icon: Icon(Icons.map),
+                        label: Text("Pick Location from Map"),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                        child: Row(
-                          children: [
-                              Icon(Icons.location_on),
-                              SizedBox(width: 3.w,),
-                            Text("Home",style: textStyles.font14navyMedium,),
-                            Spacer(),
-                            TextButton(onPressed: (){},
-                                child: Text("Change",style: textStyles.font16blueSemiBold,)
-                            )
-                          ],
-                        ),
+                      SizedBox(height: 10),
+                      selectedLocation == null
+                          ? Text("No location selected")
+                          : Text(
+                        "Lat: ${selectedLocation!.latitude}, Lng: ${selectedLocation!.longitude}",
+                        style: textStyles.font14navyMedium,
                       ),
-                      Column(
-                        spacing: 5.h,
-                        children: [
-                          Text("Anshas, Al-sharqia, Egypt.",style: textStyles.font14navyMedium,),
-                          Text("Mobile: +20 101 840 3043",style: textStyles.font14navyMedium,),
-                        ],
-                      )
                     ],
                   ),
                 ),
-                Text("Delivery time",style: textStyles.font20navySemiBold,),
-                Container(
-                  height: 50.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: appColors.KPnavy,width: 1)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.delivery_dining,color: Colors.blue,),
-                      SizedBox(width: 10.w,),
-                      Text("Within 2 days",style: textStyles.font14navyMedium,)
-                    ],
-                  ),
-                ),
-                Text("Payment",style: textStyles.font20navySemiBold,),
+                SizedBox(height: 16.h),
+                Text("Delivery time", style: textStyles.font20navySemiBold),
                 Container(
                   height: 50.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: appColors.KPnavy,width: 1)
+                      border: Border.all(color: appColors.KPnavy, width: 1)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.delivery_dining, color: Colors.blue),
+                      SizedBox(width: 10.w),
+                      Text("Within 2 days", style: textStyles.font14navyMedium)
+                    ],
                   ),
+                ),
+                SizedBox(height: 16.h),
+                Text("Payment", style: textStyles.font20navySemiBold),
+                Container(
+                  height: 50.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: appColors.KPnavy, width: 1)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.monetization_on_sharp,color: Colors.blue,),
-                        SizedBox(width: 5.w,),
-                        Text("Cash on delivery",style: textStyles.font14navyMedium,),
+                        Icon(Icons.monetization_on_sharp, color: Colors.blue),
+                        SizedBox(width: 5.w),
+                        Text("Cash on delivery",
+                            style: textStyles.font14navyMedium),
                         Spacer(),
-                        TextButton(onPressed: (){},
-                            child: Text("Change",style: textStyles.font16blueSemiBold,)
+                        TextButton(
+                          onPressed: () {},
+                          child: Text("Change",
+                              style: textStyles.font16blueSemiBold),
                         )
                       ],
                     ),
                   ),
                 ),
+                SizedBox(height: 16.h),
                 Row(
                   children: [
                     Expanded(
@@ -147,80 +148,74 @@ class CheckOutPage extends StatelessWidget {
                         borderBackgroundColor: appColors.KPnavy,
                         textInputType: TextInputType.text,
                       ),
-            
                     ),
-                      SizedBox(width: 10.w,),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 50.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(color: appColors.KPnavy,width: 1)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Apply",style: textStyles.font16blueSemiBold,),
-                            ],
-                          ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Container(
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                              color: appColors.KPnavy, width: 1),
+                        ),
+                        child: Center(
+                          child: Text("Apply",
+                              style: textStyles.font16blueSemiBold),
                         ),
                       ),
+                    ),
                   ],
                 ),
-                Text("Payment",style: textStyles.font20navySemiBold,),
+                SizedBox(height: 16.h),
+                Text("Payment Summary", style: textStyles.font20navySemiBold),
                 Container(
+                  padding: EdgeInsets.all(8),
                   width: double.infinity,
-                  height: 90.h,
+                  height: 100.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: appColors.KPnavy,width: 1)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text("Suptotal (3 items)", style: textStyles.font14navyMedium,),
-                            Spacer(),
-                            Text("EGP 1,120,00", style: textStyles.font14navyMedium,),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Delivery Fees", style: textStyles.font14navyMedium,),
-                            Spacer(),
-                            Text("EGP 10,00", style: textStyles.font14navyMedium,),
-                          ],
-                        ),
-                        Spacer(),
-                        dashedDivider(),
-                        Row(
-                          children: [
-                            Text("Total", style: textStyles.font14navyMedium,),
-                            Spacer(),
-                            Text("EGP 1,130,00", style: textStyles.font14navyMedium,),
-                          ],
-                        ),
-                      ],
-                    ),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: appColors.KPnavy, width: 1)),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Subtotal (3 items)",
+                              style: textStyles.font14navyMedium),
+                          Spacer(),
+                          Text("EGP 1,120.00",
+                              style: textStyles.font14navyMedium),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("Delivery Fees",
+                              style: textStyles.font14navyMedium),
+                          Spacer(),
+                          Text("EGP 10.00",
+                              style: textStyles.font14navyMedium),
+                        ],
+                      ),
+                      dashedDivider(),
+                      Row(
+                        children: [
+                          Text("Total", style: textStyles.font14navyMedium),
+                          Spacer(),
+                          Text("EGP 1,130.00",
+                              style: textStyles.font14navyMedium),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 5.h,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: CustomElevatedButton(
-                    onTap: () {
-                    },
-                    label: 'Place Order',
-                  ),
+                SizedBox(height: 16.h),
+                CustomElevatedButton(
+                  onTap: () {},
+                  label: 'Place Order',
                 ),
               ],
             ),
           ),
-        )
+        ),
       ),
     );
   }

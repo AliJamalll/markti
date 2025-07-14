@@ -74,14 +74,14 @@ class _ProductsOnCartState extends State<ProductsOnCart> {
 
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10),
+                padding:  EdgeInsets.only(left: 10.0, right: 10),
                 child: Column(
                   children: [
                     Expanded(
                       child: Row(
                         children: [
                           SizedBox(width: 10),
-                          Text(name ??"product name",style: textStyles.font20navySemiBold,),
+                          Text(name ??"product name",style: textStyles.font14navyMedium,),
                           Spacer(),
                           IconButton(
                             onPressed: () {
@@ -120,7 +120,7 @@ class _ProductsOnCartState extends State<ProductsOnCart> {
                           Text(
                             "price: ${price ?? "0.00"} EGP",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
