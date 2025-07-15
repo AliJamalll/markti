@@ -69,5 +69,11 @@
     	<!-- Flutter map support -->
     	<key>io.flutter.embedded_views_preview</key>
     	<true/>
+
+    	<key>NSCameraUsageDescription</key>
+        <string>We need access to your camera to take pictures.</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>We need access to your photo library.</string>
+
 </dict>
 </plist>

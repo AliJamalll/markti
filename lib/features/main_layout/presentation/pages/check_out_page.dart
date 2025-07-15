@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:markti/core/constants/colors.dart';
 import 'package:markti/core/constants/styles.dart';
@@ -17,7 +18,10 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
+
   LatLng? selectedLocation;
+  String? selectedAddress;
+
 
   Widget dashedDivider({
     double dashWidth = 8,
@@ -52,8 +56,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
     );
 
     if (location != null) {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      );
+
+      Placemark place = placemarks.first;
+      String address =
+          "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
       setState(() {
         selectedLocation = location;
+        selectedAddress = address;
       });
     }
   }
@@ -87,7 +101,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       selectedLocation == null
                           ? Text("No location selected")
                           : Text(
-                        "Lat: ${selectedLocation!.latitude}, Lng: ${selectedLocation!.longitude}",
+                        selectedAddress ?? "Loading address...",
                         style: textStyles.font14navyMedium,
                       ),
                     ],

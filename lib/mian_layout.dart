@@ -5,6 +5,7 @@ import 'package:markti/features/main_layout/presentation/pages/favorite_screen.d
 import 'package:markti/features/main_layout/presentation/pages/home_page.dart';
 
 import 'core/resources/color_manager.dart';
+import 'features/main_layout/presentation/pages/profile_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -17,7 +18,8 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> screens = [
     HomePage(),
     CartScreen(),
-    FavoriteScreen()
+    FavoriteScreen(),
+    ProfileScreen()
   ];
 
   int currentIndex = 0;

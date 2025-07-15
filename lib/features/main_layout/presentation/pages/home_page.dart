@@ -161,13 +161,6 @@ class HomePage extends StatelessWidget {
                         itemCount: 5
                     )
                 ),
-                ElevatedButton(
-                  onPressed: () async{
-                    await secureStorage.delete(key: "token");
-                    Navigator.pushNamed(context, Routes.signIn);
-                  },
-                  child: const Text('logout'),
-                ),
               ],
             ),
           ),
