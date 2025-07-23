@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:markti/core/api/api_manager.dart';
 import 'package:markti/core/api/end_point.dart';
+import 'package:markti/core/cache/secure_storage.dart';
 import 'package:markti/core/failures/failure.dart';
 import 'package:markti/features/main_layout/data/models/main_layout_response_DM.dart';
 import 'package:markti/features/main_layout/domain/entities/main_layout_response_entity.dart';
@@ -20,7 +21,11 @@ class MainLayoutRemoteDataSourceImpl implements MainLayoutRemoteDateSource{
    try{
      final List<ConnectivityResult> connectivityResult =await  Connectivity().checkConnectivity();
      if(connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)){
-       var response = await apiManager.getData(endPoint: EndPoints.getAllProducts);
+       final token = await secureStorage.read(key: "token");
+       var response = await apiManager.getData(endPoint: EndPoints.getAllProducts,
+       headers: {
+          "Authorization" : "Bearer $token",
+       });
        var productResponse = MainLayoutResponseDm.fromJson(response.data);
 
        if(response.statusCode! >=200 && response.statusCode! < 300){

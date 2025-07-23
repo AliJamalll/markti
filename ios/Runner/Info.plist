@@ -78,5 +78,12 @@
         <key>SKStoreProductParameterITunesItemIdentifier</key>
         <string>YOUR_APP_STORE_ID</string>
 
+        <key>NSAppTransportSecurity</key>
+        <dict>
+          <key>NSAllowsArbitraryLoads</key>
+          <true/>
+        </dict>
+
+
 </dict>
 </plist>

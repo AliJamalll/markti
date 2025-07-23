@@ -51,8 +51,9 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
                     Icon(Icons.star, color: appColors.KPnavy, size: 20),
                     SizedBox(width: 4),
                     Text(
-                      "${widget.listMainLayoutResponseEntity.rating}",
+                      "${widget.listMainLayoutResponseEntity.rating!.toStringAsFixed(1)}",
                       style: TextStyle(color: appColors.KPnavy, fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -87,7 +88,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  "${ widget.listMainLayoutResponseEntity.images}" ,
+                  "${widget.listMainLayoutResponseEntity.images![0]}" ,
                   fit: BoxFit.cover,
                   width: 152.w,
                   height: 96.h,

@@ -18,7 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> screens = [
     HomePage(),
     CartScreen(),
-    //FavoriteScreen(),
+    FavoriteScreen(),
     ProfileScreen()
   ];
 

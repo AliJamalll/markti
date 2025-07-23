@@ -101,7 +101,10 @@ class _HomePageState extends State<HomePage> {
                         ListView.builder(
                           itemBuilder: (context,index) {
                             final products = mainLayoutCubit.productsList[index];
-                            return CustomProductsScrollableWidget(listMainLayoutResponseEntity: products,);
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomProductsScrollableWidget(listMainLayoutResponseEntity: products,),
+                            );
                           },
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
