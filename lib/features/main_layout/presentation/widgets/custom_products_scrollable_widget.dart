@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markti/core/constants/styles.dart';
 import 'package:markti/core/resources/color_manager.dart';
+import 'package:markti/features/main_layout/domain/repositories/repository/main_layout_repository.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../domain/entities/main_layout_response_entity.dart';
 
 class CustomProductsScrollableWidget extends StatefulWidget {
-  CustomProductsScrollableWidget({super.key,});
+  CustomProductsScrollableWidget({super.key,required this.listMainLayoutResponseEntity});
 
+  ListMainLayoutResponseEntity listMainLayoutResponseEntity;
   @override
   State<CustomProductsScrollableWidget> createState() => _CustomProductsScrollableWidgetState();
 }
@@ -23,7 +26,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
     return Stack(
       children: [
         Container(
-          width: 170.w,
+          width: 160.w,
           height: 170.h,
           decoration: BoxDecoration(
             color: appColors.KPlightBlue,
@@ -39,7 +42,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
                   children: [
                     Expanded(
                       child: Text(
-                        "${price ?? ''} LE",
+                        "${widget.listMainLayoutResponseEntity.price ?? '1000'} LE",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(fontSize: 12),
@@ -48,7 +51,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
                     Icon(Icons.star, color: appColors.KPnavy, size: 20),
                     SizedBox(width: 4),
                     Text(
-                      "$rating",
+                      "${widget.listMainLayoutResponseEntity.rating}",
                       style: TextStyle(color: appColors.KPnavy, fontSize: 12),
                     ),
                   ],
@@ -60,7 +63,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
                 child: Padding(
                   padding: EdgeInsets.only(left: 8.w),
                   child: Text(
-                    "$brandName",
+                    "${widget.listMainLayoutResponseEntity.brand}",
                     style: textStyles.font12grayRegular,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -84,7 +87,7 @@ class _CustomProductsScrollableWidgetState extends State<CustomProductsScrollabl
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  image ?? '',
+                  "${ widget.listMainLayoutResponseEntity.images}" ,
                   fit: BoxFit.cover,
                   width: 152.w,
                   height: 96.h,

@@ -3,32 +3,36 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markti/core/constants/colors.dart';
 
 class CustomProfileFeatures extends StatelessWidget {
-   CustomProfileFeatures({super.key,required this.text,required this.firstIcon,required this.lastIcon,required this.onPressed});
-
-  final Widget? firstIcon;
+  final Widget firstIcon;
+  final Text text;
   final Widget? lastIcon;
-  final VoidCallback onPressed;
-  final Text? text;
+  final VoidCallback? onPressed;
+  final bool? isSwitched;
+  final Function(bool)? onToggle;
+
+  const CustomProfileFeatures({
+    required this.firstIcon,
+    required this.text,
+    this.lastIcon,
+    this.onPressed,
+    this.isSwitched,
+    this.onToggle,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      width: double.infinity,
-      decoration:BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        //border: Border.all(color: appColors.KPprimary,width: 1.w),
-      ),
-      child: Row(
-        children: [
-          firstIcon!,
-          SizedBox(width: 10.w,),
-          text!,
-          Spacer(),
-          IconButton(onPressed: onPressed, icon: lastIcon!)
-        ],
-      ),
+    return ListTile(
+      onTap: onPressed,
+      leading: firstIcon,
+      title: text,
+      trailing: isSwitched != null && onToggle != null
+          ? Switch(
+        value: isSwitched!,
+        onChanged: onToggle!,
+      )
+          : lastIcon,
     );
   }
 }
+

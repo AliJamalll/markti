@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:markti/core/di/di.dart';
 import 'package:markti/core/resources/assets_manager.dart';
 import 'package:markti/core/routes_manager/routes.dart';
+import 'package:markti/features/main_layout/presentation/manager/main_layout_cubit.dart';
 
 import '../../../../core/cache/secure_storage.dart';
 import '../../../../core/constants/colors.dart';
@@ -11,159 +14,182 @@ import '../../../../core/widget/validators.dart';
 import '../widgets/custom_category_scrollable_widget.dart';
 import '../widgets/custom_products_scrollable_widget.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+   HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  MainLayoutCubit mainLayoutCubit = getIt<MainLayoutCubit>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mainLayoutCubit.getALlProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
+        child: BlocBuilder(
+          bloc: mainLayoutCubit,
+          builder: (context,state){
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                        backgroundImage: AssetImage(ImageAssets.ali)
-                    ),
-                    SizedBox(width: 20.w,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
                       children: [
-                        Text("Hi ali!",style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
+                        CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage(ImageAssets.ali)
                         ),
+                        SizedBox(width: 20.w,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Hi ali!",style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          ],
                         ),
+                        Spacer(),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.notifications,color: Colors.blue,size: 30,))
                       ],
                     ),
-                    Spacer(),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.notifications,color: Colors.blue,size: 30,))
-                  ],
-                ),
-                SizedBox(height: 25.h,),
-                BuildTextField(
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: Icon(Icons.filter_alt),
-                  hint: "What are you looking for ?",
-                  labelTextStyle: textStyles.font12grayRegular,
-                  backgroundColor: appColors.KPwhite,
-                  borderBackgroundColor: appColors.KPnavy,
-                  textInputType: TextInputType.text,
-                ),
-                SizedBox(height: 10.h,),
-                SizedBox(
-                    height: 130.h,
-                    width: 400.w,
-                    child: Image.asset(ImageAssets.scrolled_pic)),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Row(
-                  children: [
-                    Text("Popular Product",style: textStyles.font20navySemiBold,),
-                    Spacer(),
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, Routes.popular_products);
-                    },
-                        child: Text("View All",style: textStyles.font16blueSemiBold,),
-                    )
-                  ],
-                ),
-                SizedBox(height: 5.h,),
-                SizedBox(
-                  height: 170.h,
-                    child:
-                ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index) => CustomProductsScrollableWidget(),
-                    separatorBuilder: (context,index) => SizedBox(width: 18.w,),
-                    itemCount: 5
-                )
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Row(
-                  children: [
-                    Text("Category",style: textStyles.font20navySemiBold,),
-                    Spacer(),
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, Routes.categories);
-                    },
-                      child: Text("View All",style: textStyles.font16blueSemiBold,),
-                    )
-                  ],
-                ),
-                SizedBox(
-                    height: 270.h,
-                    child: GridView.builder(
-                      itemCount: 8,
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 50.0,
-                        crossAxisSpacing: 1.0,
-                        childAspectRatio: 1.5,
+                    SizedBox(height: 25.h,),
+                    BuildTextField(
+                      prefixIcon: Icon(Icons.search),
+                      suffixIcon: Icon(Icons.filter_alt),
+                      hint: "What are you looking for ?",
+                      labelTextStyle: textStyles.font12grayRegular,
+                      backgroundColor: appColors.KPwhite,
+                      borderBackgroundColor: appColors.KPnavy,
+                      textInputType: TextInputType.text,
+                    ),
+                    SizedBox(height: 10.h,),
+                    SizedBox(
+                        height: 130.h,
+                        width: 400.w,
+                        child: Image.asset(ImageAssets.scrolled_pic)),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Row(
+                      children: [
+                        Text("Popular Product",style: textStyles.font20navySemiBold,),
+                        Spacer(),
+                        TextButton(onPressed: (){
+                          Navigator.pushNamed(context, Routes.popular_products);
+                        },
+                          child: Text("View All",style: textStyles.font16blueSemiBold,),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5.h,),
+                    SizedBox(
+                        height: 170.h,
+                        child:
+                        ListView.builder(
+                          itemBuilder: (context,index) {
+                            final products = mainLayoutCubit.productsList[index];
+                            return CustomProductsScrollableWidget(listMainLayoutResponseEntity: products,);
+                          },
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: mainLayoutCubit.productsList.length,
+                        )
+                    ),
+
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Row(
+                      children: [
+                        Text("Category",style: textStyles.font20navySemiBold,),
+                        Spacer(),
+                        TextButton(onPressed: (){
+                          Navigator.pushNamed(context, Routes.categories);
+                        },
+                          child: Text("View All",style: textStyles.font16blueSemiBold,),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 270.h,
+                      child: GridView.builder(
+                        itemCount: 8,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.zero,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 40.0,
+                          crossAxisSpacing: 2.0,
+                          childAspectRatio: 1.5,
+                        ),
+                        itemBuilder: (context,index) => CustomCategoryScrollableWidget(),
                       ),
-                      itemBuilder: (context,index) => CustomCategoryScrollableWidget(),
-                ),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Row(
-                  children: [
-                    Text("Brands",style: textStyles.font20navySemiBold,),
-                    Spacer(),
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, Routes.brands);
-                    },
-                      child: Text("View All",style: textStyles.font16blueSemiBold,),
-                    )
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Row(
+                      children: [
+                        Text("Brands",style: textStyles.font20navySemiBold,),
+                        Spacer(),
+                        TextButton(onPressed: (){
+                          Navigator.pushNamed(context, Routes.brands);
+                        },
+                          child: Text("View All",style: textStyles.font16blueSemiBold,),
+                        )
+                      ],
+                    ),
+                    // SizedBox(
+                    //     height: 170.h,
+                    //     child:
+                    //     ListView.separated(
+                    //         shrinkWrap: true,
+                    //         scrollDirection: Axis.horizontal,
+                    //         itemBuilder: (context,index) => CustomProductsScrollableWidget(),
+                    //         separatorBuilder: (context,index) => SizedBox(width: 18.w,),
+                    //         itemCount: 5
+                    //     )
+                    // ),
+                    Row(
+                      children: [
+                        Text("Buy Again",style: textStyles.font20navySemiBold,),
+                        Spacer(),
+                        TextButton(onPressed: (){
+                          Navigator.pushNamed(context, Routes.buyAgain);
+                        },
+                          child: Text("View All",style: textStyles.font16blueSemiBold,),
+                        )
+                      ],
+                    ),
+                    // SizedBox(
+                    //     height: 170.h,
+                    //     child:
+                    //     ListView.separated(
+                    //         shrinkWrap: true,
+                    //         scrollDirection: Axis.horizontal,
+                    //         itemBuilder: (context,index) => CustomProductsScrollableWidget(),
+                    //         separatorBuilder: (context,index) => SizedBox(width: 18.w,),
+                    //         itemCount: 5
+                    //     )
+                    // ),
                   ],
                 ),
-                SizedBox(
-                    height: 170.h,
-                    child:
-                    ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context,index) => CustomProductsScrollableWidget(),
-                        separatorBuilder: (context,index) => SizedBox(width: 18.w,),
-                        itemCount: 5
-                    )
-                ),
-                Row(
-                  children: [
-                    Text("Buy Again",style: textStyles.font20navySemiBold,),
-                    Spacer(),
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, Routes.buyAgain);
-                    },
-                      child: Text("View All",style: textStyles.font16blueSemiBold,),
-                    )
-                  ],
-                ),
-                SizedBox(
-                    height: 170.h,
-                    child:
-                    ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context,index) => CustomProductsScrollableWidget(),
-                        separatorBuilder: (context,index) => SizedBox(width: 18.w,),
-                        itemCount: 5
-                    )
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

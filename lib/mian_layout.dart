@@ -18,7 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> screens = [
     HomePage(),
     CartScreen(),
-    FavoriteScreen(),
+    //FavoriteScreen(),
     ProfileScreen()
   ];
 
@@ -28,39 +28,37 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:  screens[currentIndex],
-     bottomNavigationBar: BottomNavigationBar(
-       currentIndex: currentIndex,
-         onTap: (index) {
-         setState(() {
-           currentIndex = index;
-         });
-         },
-       backgroundColor: appColors.KPwhite,
-       type: BottomNavigationBarType.fixed,
-       selectedItemColor: ColorManager.primary,
-       unselectedItemColor: ColorManager.white,
-       showSelectedLabels: false,
-       // Hide selected item labels
-       showUnselectedLabels: false,
-         items:  [
-           BottomNavigationBarItem(
-             icon: Icon(Icons.home,color: Colors.black,),
-             label: 'Home',
-           ),
-           BottomNavigationBarItem(
-             icon: Icon(Icons.shopping_cart,color: Colors.black),
-             label: 'Cart',
-           ),
-           BottomNavigationBarItem(
-             icon: Icon(Icons.favorite,color: Colors.black),
-             label: 'Favorites',
-           ),
-           BottomNavigationBarItem(
-             icon: Icon(Icons.menu,color: Colors.black),
-             label: 'Menu',
-           ),
-         ],
-     ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+        unselectedItemColor: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
+        ],
+      ),
     );
   }
 }

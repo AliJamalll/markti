@@ -75,5 +75,8 @@
         <key>NSPhotoLibraryUsageDescription</key>
         <string>We need access to your photo library.</string>
 
+        <key>SKStoreProductParameterITunesItemIdentifier</key>
+        <string>YOUR_APP_STORE_ID</string>
+
 </dict>
 </plist>

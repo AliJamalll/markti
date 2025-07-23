@@ -1,15 +1,14 @@
-class GetProductsResponseEntity {
-  GetProductsResponseEntity({
+class MainLayoutResponseEntity {
+  MainLayoutResponseEntity({
       this.list,});
 
-  List<ListProductsResponseEntity>? list;
-
+  List<ListMainLayoutResponseEntity>? list;
 
 }
 
-class ListProductsResponseEntity {
-  ListProductsResponseEntity({
-      this.locationResponseEntity,
+class ListMainLayoutResponseEntity {
+  ListMainLayoutResponseEntity({
+      this.location, 
       this.id, 
       this.title, 
       this.price, 
@@ -25,7 +24,7 @@ class ListProductsResponseEntity {
       this.updatedAt, 
       this.v,});
 
-  LocationResponseEntity? locationResponseEntity;
+  LocationMainLayoutResponseEntity? location;
   String? id;
   String? title;
   num? price;
@@ -44,19 +43,19 @@ class ListProductsResponseEntity {
 
 }
 
-class LocationResponseEntity {
-  LocationResponseEntity({
+class LocationMainLayoutResponseEntity {
+  LocationMainLayoutResponseEntity({
       this.location, 
       this.name,});
 
-  LocationEntity? location;
+  LocationResponseEntity? location;
   String? name;
 
 
 }
 
-class LocationEntity {
-  LocationEntity({
+class LocationResponseEntity {
+  LocationResponseEntity({
       this.type, 
       this.coordinates,});
 

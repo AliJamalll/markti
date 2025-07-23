@@ -29,6 +29,18 @@ import '../../features/auth/domain/use_cases/register_usecase.dart' as _i957;
 import '../../features/auth/domain/use_cases/send_password_email.dart'
     as _i1043;
 import '../../features/auth/presentation/manager/auth_cubit.dart' as _i888;
+import '../../features/main_layout/data/data_sources/main_layout_remote_data_source_impl/main_layout_remote_data_source_impl.dart'
+    as _i779;
+import '../../features/main_layout/data/repositories/main_layout_repository_impl.dart'
+    as _i241;
+import '../../features/main_layout/domain/repositories/data_source/main_layout_remote_data_source/main_layout_remote_data_source.dart'
+    as _i585;
+import '../../features/main_layout/domain/repositories/repository/main_layout_repository.dart'
+    as _i815;
+import '../../features/main_layout/domain/use_cases/main_layout_use_case.dart'
+    as _i320;
+import '../../features/main_layout/presentation/manager/main_layout_cubit.dart'
+    as _i500;
 import '../api/api_manager.dart' as _i1047;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -39,13 +51,37 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
+    gh.factory<_i500.MainLayoutCubit>(
+      () => _i500.MainLayoutCubit(
+        mainLayoutUseCase: gh<_i320.MainLayoutUseCase>(),
+      ),
+    );
     gh.factory<_i849.AuthRemoteDataSource>(
       () => _i689.AuthRemoteDataSourceImpl(apiManager: gh<_i1047.ApiManager>()),
+    );
+    gh.factory<_i585.MainLayoutRemoteDateSource>(
+      () => _i779.MainLayoutRemoteDataSourceImpl(
+        apiManager: gh<_i1047.ApiManager>(),
+      ),
     );
     gh.factory<_i154.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         authRemoteDataSource: gh<_i849.AuthRemoteDataSource>(),
       ),
+    );
+    gh.factory<_i815.MainLayoutRepository>(
+      () => _i241.MainLayoutRepositoryImpl(
+        mainLayoutRemoteDateSource: gh<_i585.MainLayoutRemoteDateSource>(),
+      ),
+    );
+    gh.factory<_i320.MainLayoutUseCase>(
+      () => _i320.MainLayoutUseCase(
+        mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
+      ),
+    );
+    gh.factory<_i358.NewPasswordUseCase>(
+      () =>
+          _i358.NewPasswordUseCase(authRepository: gh<_i154.AuthRepository>()),
     );
     gh.factory<_i957.RegisterUseCase>(
       () => _i957.RegisterUseCase(authRepository: gh<_i154.AuthRepository>()),
@@ -62,10 +98,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i924.ActiveResetPasswordUseCase(
         authRepository: gh<_i154.AuthRepository>(),
       ),
-    );
-    gh.factory<_i358.NewPasswordUseCase>(
-      () =>
-          _i358.NewPasswordUseCase(authRepository: gh<_i154.AuthRepository>()),
     );
     gh.factory<_i888.AuthCubit>(
       () => _i888.AuthCubit(

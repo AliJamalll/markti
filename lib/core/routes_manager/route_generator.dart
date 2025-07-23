@@ -62,8 +62,8 @@ class RouteGenerator{
     // case Routes.homePage:
     // return MaterialPageRoute(builder: (_) => HomePage());
 
-      case Routes.popular_products:
-        return MaterialPageRoute(builder: (_) => PopularProducts());
+      // case Routes.popular_products:
+      //   return MaterialPageRoute(builder: (_) => PopularProducts());
 
         case Routes.categories:
         return MaterialPageRoute(builder: (_) => CategoriesPage());
@@ -71,8 +71,8 @@ class RouteGenerator{
         case Routes.brands:
         return MaterialPageRoute(builder: (_) => BrandPage());
 
-        case Routes.buyAgain:
-        return MaterialPageRoute(builder: (_) => BuyAgainPage());
+        // case Routes.buyAgain:
+        // return MaterialPageRoute(builder: (_) => BuyAgainPage());
 
         case Routes.checkOut:
         return MaterialPageRoute(builder: (_) => CheckOutPage());
