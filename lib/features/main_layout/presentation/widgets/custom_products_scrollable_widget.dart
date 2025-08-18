@@ -12,7 +12,10 @@ class CustomProductsScrollableWidget extends StatefulWidget {
   CustomProductsScrollableWidget({
     super.key,
     required this.listMainLayoutResponseEntity,
+    required this.onTap
   });
+
+  final void Function() onTap;
 
   ListMainLayoutResponseEntity listMainLayoutResponseEntity;
 
@@ -134,6 +137,28 @@ class _CustomProductsScrollableWidgetState
             ),
           ),
         ),
+        Positioned(
+          bottom: 0,
+          left: 50,
+          child: InkWell(
+            onTap: widget.onTap,
+            child: Container(
+              height: 30.h,
+              width: 70.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: appColors.KPprimary, width: 1),
+                color: appColors.KPwhite,
+              ),
+              child: Center(
+                child: Text(
+                  "Add",
+                  style: textStyles.font12grayRegular,
+                ),
+              ),
+            ),
+          ),
+        )
 
       ],
     );

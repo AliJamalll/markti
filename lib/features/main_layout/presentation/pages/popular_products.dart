@@ -79,7 +79,7 @@ class PopularProducts extends StatelessWidget {
                       childAspectRatio: 1,
                     ),
                     itemBuilder: (context, index) => CustomProductsScrollableWidget(
-
+                      onTap: (){},
                       listMainLayoutResponseEntity: products[index],
                     ),
                   ),

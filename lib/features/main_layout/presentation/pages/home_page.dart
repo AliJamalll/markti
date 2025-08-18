@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
           )
         else
           SizedBox(
-            height: 170.h,
+            height: 190.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: mainLayoutCubit.productsList.length,
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CustomProductsScrollableWidget(
-
+                    onTap: (){},
                     listMainLayoutResponseEntity:
                     mainLayoutCubit.productsList[index],
                   ),
