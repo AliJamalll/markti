@@ -5,4 +5,6 @@ static const String sendResetPassword = "/api/v1/auth/sendPassEmail";
 static const String activeResetPassword = "/api/v1/auth/activeResetPass";
 static const String newPassword = "/api/v1/auth/resetPassword";
 static const String getAllProducts = "/api/v1/home/products";
+static const String getAllCategories = "/api/v1/home/categories";
+static const String getAllBrands = "/api/v1/home/brands";
 }

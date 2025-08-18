@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:markti/features/main_layout/domain/entities/brand_response_entity.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/main_text_field.dart';
+import '../widgets/custom_brands_scrollable_widget.dart';
 import '../widgets/custom_category_scrollable_widget.dart';
 
 class BrandPage extends StatelessWidget {
-  const BrandPage({super.key});
+   BrandPage({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+
+    // Add debug prints to see what we're receiving
+    // print("Arguments received: $arguments");
+    // print("Arguments type: ${arguments.runtimeType}");
+
+    final brands = arguments is List<BrandListResponseEntity>
+        ? arguments
+        : <BrandListResponseEntity>[];
     return SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(pageName: "Brands",),
@@ -36,7 +49,7 @@ class BrandPage extends StatelessWidget {
                 SizedBox(height: 10.h,),
                 Expanded(
                   child: GridView.builder(
-                      itemCount: 8,
+                      itemCount: brands.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,7 +58,7 @@ class BrandPage extends StatelessWidget {
                         crossAxisSpacing: 9.0,
                         childAspectRatio: 1,
                       ),
-                      itemBuilder: (context,index) => CustomCategoryScrollableWidget()
+                      itemBuilder: (context,index) => customBrandsScrollableWidget(brandListResponseEntity: brands[index],)
                   ),
                 )
               ],

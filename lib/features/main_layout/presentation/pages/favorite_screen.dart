@@ -6,6 +6,7 @@ import '../../../../core/constants/styles.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/main_text_field.dart';
+import '../widgets/custom_favorites_scrollable_widget.dart';
 import '../widgets/custom_products_scrollable_widget.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -13,45 +14,47 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-    // return SafeArea(
-    //   child: Scaffold(
-    //     appBar: CustomAppBar(pageName: "Favorites",),
-    //     body: Padding(
-    //       padding: const EdgeInsets.all(16.0),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           SizedBox(height: 25.h,),
-    //           BuildTextField(
-    //             prefixIcon: Icon(Icons.search),
-    //             suffixIcon: Icon(Icons.filter_alt),
-    //             hint: "What are you looking for ?",
-    //             labelTextStyle: textStyles.font12grayRegular,
-    //             backgroundColor: appColors.KPwhite,
-    //             borderBackgroundColor: appColors.KPnavy,
-    //             textInputType: TextInputType.text,
-    //           ),
-    //           SizedBox(height: 10.h,),
-    //           Text("All Products",style: textStyles.font20navySemiBold,),
-    //           Expanded(
-    //             child: GridView.builder(
-    //                 itemCount: 8,
-    //                 shrinkWrap: true,
-    //                 scrollDirection: Axis.vertical,
-    //                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //                   crossAxisCount: 2,
-    //                   mainAxisSpacing: 20.0,
-    //                   crossAxisSpacing: 9.0,
-    //                   childAspectRatio: 1,
-    //                 ),
-    //                 itemBuilder: (context,index) => CustomProductsScrollableWidget()
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+    return Scaffold(
+      body:  SafeArea(
+    child: Scaffold(
+    appBar: CustomAppBar(pageName: "Favorites",),
+    body: Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    SizedBox(height: 25.h,),
+    BuildTextField(
+    prefixIcon: Icon(Icons.search),
+    suffixIcon: Icon(Icons.filter_alt),
+    hint: "What are you looking for ?",
+    labelTextStyle: textStyles.font12grayRegular,
+    backgroundColor: appColors.KPwhite,
+    borderBackgroundColor: appColors.KPnavy,
+    textInputType: TextInputType.text,
+    ),
+    SizedBox(height: 10.h,),
+    Text("All Products",style: textStyles.font20navySemiBold,),
+    Expanded(
+    child: GridView.builder(
+    itemCount: 8,
+    shrinkWrap: true,
+    scrollDirection: Axis.vertical,
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    mainAxisSpacing: 20.0,
+    crossAxisSpacing: 9.0,
+    childAspectRatio: 1,
+    ),
+    itemBuilder: (context,index) => customFavoriteScrollableWidget()
+    ),
+    )
+    ],
+    ),
+    ),
+    ),
+    ),
+    );
+
   }
 }

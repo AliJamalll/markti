@@ -37,6 +37,10 @@ import '../../features/main_layout/domain/repositories/data_source/main_layout_r
     as _i585;
 import '../../features/main_layout/domain/repositories/repository/main_layout_repository.dart'
     as _i815;
+import '../../features/main_layout/domain/use_cases/brands_usecase.dart'
+    as _i374;
+import '../../features/main_layout/domain/use_cases/category_use_case.dart'
+    as _i422;
 import '../../features/main_layout/domain/use_cases/main_layout_use_case.dart'
     as _i320;
 import '../../features/main_layout/presentation/manager/main_layout_cubit.dart'
@@ -54,6 +58,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i500.MainLayoutCubit>(
       () => _i500.MainLayoutCubit(
         mainLayoutUseCase: gh<_i320.MainLayoutUseCase>(),
+        categoryUseCase: gh<_i422.CategoryUseCase>(),
+        brandsUseCase: gh<_i374.BrandsUseCase>(),
       ),
     );
     gh.factory<_i849.AuthRemoteDataSource>(
@@ -76,6 +82,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i320.MainLayoutUseCase>(
       () => _i320.MainLayoutUseCase(
+        mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
+      ),
+    );
+    gh.factory<_i422.CategoryUseCase>(
+      () => _i422.CategoryUseCase(
+        mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
+      ),
+    );
+    gh.factory<_i374.BrandsUseCase>(
+      () => _i374.BrandsUseCase(
         mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
       ),
     );

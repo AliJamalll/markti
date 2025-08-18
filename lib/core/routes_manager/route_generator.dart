@@ -18,6 +18,7 @@ import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
 import '../../features/auth/presentation/pages/verify_email_code_screen.dart';
 import '../../features/auth/presentation/pages/verify_phone_code_screen.dart';
+import '../../features/main_layout/domain/entities/main_layout_response_entity.dart';
 import '../../features/main_layout/presentation/pages/categories_page.dart';
 
 class RouteGenerator{
@@ -62,17 +63,25 @@ class RouteGenerator{
     // case Routes.homePage:
     // return MaterialPageRoute(builder: (_) => HomePage());
 
-      // case Routes.popular_products:
-      //   return MaterialPageRoute(builder: (_) => PopularProducts());
+    // ✅ Correct - preserves arguments
+      case Routes.popular_products:
+        return MaterialPageRoute(
+          builder: (_) => const PopularProducts(),
+          settings: settings, // This is crucial!
+        );
 
         case Routes.categories:
-        return MaterialPageRoute(builder: (_) => CategoriesPage());
+        return MaterialPageRoute(builder: (_) => CategoriesPage(),
+        settings: settings
+        );
 
         case Routes.brands:
-        return MaterialPageRoute(builder: (_) => BrandPage());
+        return MaterialPageRoute(builder: (_) => BrandPage(),
+        settings: settings
+        );
 
-        // case Routes.buyAgain:
-        // return MaterialPageRoute(builder: (_) => BuyAgainPage());
+        case Routes.buyAgain:
+        return MaterialPageRoute(builder: (_) => BuyAgainPage());
 
         case Routes.checkOut:
         return MaterialPageRoute(builder: (_) => CheckOutPage());

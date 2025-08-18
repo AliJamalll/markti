@@ -6,13 +6,21 @@ import '../../../../core/constants/styles.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/main_text_field.dart';
+import '../../domain/entities/category_response_entity.dart';
 import '../widgets/custom_category_scrollable_widget.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+
+    final products = arguments is List<CategoryListEntity>
+        ? arguments
+        : <CategoryListEntity>[];
+
     return SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(pageName: "Categories",),
@@ -36,7 +44,7 @@ class CategoriesPage extends StatelessWidget {
                 SizedBox(height: 10.h,),
                 Expanded(
                   child: GridView.builder(
-                      itemCount: 8,
+                      itemCount: products.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,7 +53,7 @@ class CategoriesPage extends StatelessWidget {
                         crossAxisSpacing: 9.0,
                         childAspectRatio: 1,
                       ),
-                      itemBuilder: (context,index) => CustomCategoryScrollableWidget()
+                      itemBuilder: (context,index) => CustomCategoryScrollableWidget(categoryListEntity: products[index],)
                   ),
                 )
               ],
