@@ -7,4 +7,7 @@ static const String newPassword = "/api/v1/auth/resetPassword";
 static const String getAllProducts = "/api/v1/home/products";
 static const String getAllCategories = "/api/v1/home/categories";
 static const String getAllBrands = "/api/v1/home/brands";
+static const String addToCart = "/api/v1/user/addCart";
+static const String deleteToCart = "/api/v1/user/deleteCart";
+static const String getCart = "/api/v1/user/getCart";
 }

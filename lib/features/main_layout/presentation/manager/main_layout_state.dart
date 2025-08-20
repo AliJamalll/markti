@@ -48,3 +48,16 @@ final class getBrandsError extends MainLayoutState {
   getBrandsError({required this.errorMessage});
 }
 
+///get all brands
+final class addToCartLoading extends MainLayoutState {}
+final class addToCartSuccess extends MainLayoutState {
+  final AddToCartResponseEntity addToCartResponseEntity;
+
+  addToCartSuccess({required this.addToCartResponseEntity});
+}
+final class addToCartError extends MainLayoutState {
+  final String errorMessage;
+
+  addToCartError({required this.errorMessage});
+}
+

@@ -164,7 +164,11 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CustomProductsScrollableWidget(
-                    onTap: (){},
+                    onTap: (){
+                      mainLayoutCubit.addToCart(
+                        mainLayoutCubit.productsList[index].id!
+                      );
+                    },
                     listMainLayoutResponseEntity:
                     mainLayoutCubit.productsList[index],
                   ),

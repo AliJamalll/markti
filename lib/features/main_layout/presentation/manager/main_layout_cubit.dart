@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:markti/core/cache/secure_storage.dart';
+import 'package:markti/features/main_layout/domain/entities/add_to_cart_response_entity.dart';
 import 'package:markti/features/main_layout/domain/entities/brand_response_entity.dart';
 import 'package:markti/features/main_layout/domain/entities/main_layout_response_entity.dart';
+import 'package:markti/features/main_layout/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:markti/features/main_layout/domain/use_cases/brands_usecase.dart';
 import 'package:markti/features/main_layout/domain/use_cases/category_use_case.dart';
 import 'package:meta/meta.dart';
@@ -15,15 +17,18 @@ part 'main_layout_state.dart';
 
 @injectable
 class MainLayoutCubit extends Cubit<MainLayoutState> {
-  MainLayoutCubit({this.mainLayoutUseCase,this.categoryUseCase,this.brandsUseCase}) : super(MainLayoutInitial());
+  MainLayoutCubit({this.mainLayoutUseCase,this.categoryUseCase,this.brandsUseCase,this.addToCartUseCase}) : super(MainLayoutInitial());
 
   MainLayoutUseCase? mainLayoutUseCase;
   CategoryUseCase? categoryUseCase;
   BrandsUseCase? brandsUseCase;
+  AddToCartUseCase? addToCartUseCase;
 
   List<ListMainLayoutResponseEntity> productsList = [];
   List<CategoryListEntity> categoriesList = [];
   List<BrandListResponseEntity> brandsList = [];
+  int numOfItem = 0;
+
 
   Future<void> ToggleTheme(bool isDarkMode) async {
     await secureStorage.write(key: "isDarkMode", value: isDarkMode.toString());
@@ -103,4 +108,23 @@ class MainLayoutCubit extends Cubit<MainLayoutState> {
       emit(getBrandsSuccess(brandResponseEntity: response));
     });
   }
+
+  void addToCart(String productId) async {
+    if (productId.isEmpty) {
+      emit(addToCartError(errorMessage: "❌ productId is empty"));
+      return;
+    }
+
+    emit(addToCartLoading());
+    var either = await addToCartUseCase!.invoke(productId);
+
+    either.fold((fail) {
+      var error = fail as ServerFailure;
+      emit(addToCartError(errorMessage: error.message!));
+    }, (response) {
+      emit(addToCartSuccess(addToCartResponseEntity: response));
+      print("✅ Add to cart success with productId: $productId");
+    });
+  }
+
 }

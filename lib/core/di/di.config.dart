@@ -37,6 +37,8 @@ import '../../features/main_layout/domain/repositories/data_source/main_layout_r
     as _i585;
 import '../../features/main_layout/domain/repositories/repository/main_layout_repository.dart'
     as _i815;
+import '../../features/main_layout/domain/use_cases/add_to_cart_use_case.dart'
+    as _i382;
 import '../../features/main_layout/domain/use_cases/brands_usecase.dart'
     as _i374;
 import '../../features/main_layout/domain/use_cases/category_use_case.dart'
@@ -60,6 +62,7 @@ extension GetItInjectableX on _i174.GetIt {
         mainLayoutUseCase: gh<_i320.MainLayoutUseCase>(),
         categoryUseCase: gh<_i422.CategoryUseCase>(),
         brandsUseCase: gh<_i374.BrandsUseCase>(),
+        addToCartUseCase: gh<_i382.AddToCartUseCase>(),
       ),
     );
     gh.factory<_i849.AuthRemoteDataSource>(
@@ -92,6 +95,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i374.BrandsUseCase>(
       () => _i374.BrandsUseCase(
+        mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
+      ),
+    );
+    gh.factory<_i382.AddToCartUseCase>(
+      () => _i382.AddToCartUseCase(
         mainLayoutRepository: gh<_i815.MainLayoutRepository>(),
       ),
     );

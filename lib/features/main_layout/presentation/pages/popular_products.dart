@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markti/core/resources/assets_manager.dart';
+import 'package:markti/features/main_layout/presentation/manager/main_layout_cubit.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
@@ -75,11 +77,14 @@ class PopularProducts extends StatelessWidget {
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 15.0,
-                      crossAxisSpacing: 30.0,
-                      childAspectRatio: 1,
+                      crossAxisSpacing: 20.0,
+                      childAspectRatio: 0.86,
                     ),
                     itemBuilder: (context, index) => CustomProductsScrollableWidget(
-                      onTap: (){},
+                      onTap: (){
+                        final productId = products[index].id; // تأكد ان عندك id في الـEntity
+                        context.read<MainLayoutCubit>().addToCart(productId!);
+                      },
                       listMainLayoutResponseEntity: products[index],
                     ),
                   ),

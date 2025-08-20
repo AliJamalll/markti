@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:markti/core/failures/failure.dart';
+import 'package:markti/features/main_layout/domain/entities/add_to_cart_response_entity.dart';
 import 'package:markti/features/main_layout/domain/entities/brand_response_entity.dart';
 import 'package:markti/features/main_layout/domain/entities/main_layout_response_entity.dart';
 import 'package:markti/features/main_layout/domain/repositories/data_source/main_layout_remote_data_source/main_layout_remote_data_source.dart';
@@ -31,5 +32,11 @@ MainLayoutRepositoryImpl({required this.mainLayoutRemoteDateSource});
   Future<Either<Failure, BrandResponseEntity>> getAllBrands() async{
    var either = await mainLayoutRemoteDateSource.getAllBrands();
    return either.fold((e) => Left(e), (r) => Right(r));
+  }
+
+  @override
+  Future<Either<Failure, AddToCartResponseEntity>> addToCart(String productId) async{
+    var either = await mainLayoutRemoteDateSource.addToCart(productId);
+    return either.fold((e) => Left(e), (r) => Right(r));
   }
 }
