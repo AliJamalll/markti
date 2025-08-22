@@ -12,10 +12,12 @@ class CustomProductsScrollableWidget extends StatefulWidget {
   CustomProductsScrollableWidget({
     super.key,
     required this.listMainLayoutResponseEntity,
-    required this.onTap
+    required this.onTap,
+    required this.onTapImage
   });
 
   final void Function() onTap;
+  final VoidCallback onTapImage;
 
   ListMainLayoutResponseEntity listMainLayoutResponseEntity;
 
@@ -89,23 +91,28 @@ class _CustomProductsScrollableWidgetState
           top: 10.h,
           left: 10.w,
           right: 10.w,
-          child: Container(
-            height: 96.h,
-            width: 152.w,
-            decoration: BoxDecoration(
-              color: appColors.KPnavy,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image.network(
-                "${widget.listMainLayoutResponseEntity.images![0]}",
-                fit: BoxFit.cover,
-                width: 152.w,
-                height: 96.h,
-                errorBuilder:
-                    (context, error, stackTrace) =>
-                        Center(child: Icon(Icons.broken_image)),
+          child: Hero(
+            tag: widget.listMainLayoutResponseEntity.id ?? widget.listMainLayoutResponseEntity.images![0],            child: Container(
+              height: 96.h,
+              width: 152.w,
+              decoration: BoxDecoration(
+                color: appColors.KPnavy,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: GestureDetector(
+                onTap: widget.onTapImage,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.network(
+                    "${widget.listMainLayoutResponseEntity.images![0]}",
+                    fit: BoxFit.cover,
+                    width: 152.w,
+                    height: 96.h,
+                    errorBuilder:
+                        (context, error, stackTrace) =>
+                            Center(child: Icon(Icons.broken_image)),
+                  ),
+                ),
               ),
             ),
           ),
@@ -164,3 +171,5 @@ class _CustomProductsScrollableWidgetState
     );
   }
 }
+
+

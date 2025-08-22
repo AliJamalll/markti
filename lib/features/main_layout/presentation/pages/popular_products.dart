@@ -10,6 +10,7 @@ import '../../../../core/widget/custom_app_bar.dart';
 import '../../../../core/widget/main_text_field.dart';
 import '../../domain/entities/main_layout_response_entity.dart';
 import '../widgets/custom_products_scrollable_widget.dart';
+import 'detailed_products_screen.dart';
 
 class PopularProducts extends StatelessWidget {
   const PopularProducts({super.key});
@@ -81,9 +82,21 @@ class PopularProducts extends StatelessWidget {
                       childAspectRatio: 0.86,
                     ),
                     itemBuilder: (context, index) => CustomProductsScrollableWidget(
+                      onTapImage: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailedProductsScreen(
+                              product: products[index],
+                            ),
+                          ),
+                        );
+                      },
                       onTap: (){
                         final productId = products[index].id; // تأكد ان عندك id في الـEntity
                         context.read<MainLayoutCubit>().addToCart(productId!);
+
+
                       },
                       listMainLayoutResponseEntity: products[index],
                     ),

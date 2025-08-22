@@ -15,6 +15,7 @@ import '../widgets/custom_brands_scrollable_widget.dart';
 import '../widgets/custom_buy_again_scrollable_widget.dart';
 import '../widgets/custom_category_scrollable_widget.dart';
 import '../widgets/custom_products_scrollable_widget.dart';
+import 'detailed_products_screen.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -164,11 +165,20 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CustomProductsScrollableWidget(
-                    onTap: (){
-                      mainLayoutCubit.addToCart(
-                        mainLayoutCubit.productsList[index].id!
+                    onTapImage: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailedProductsScreen(
+                            product: mainLayoutCubit.productsList[index],
+                          ),
+                        ),
                       );
                     },
+                    onTap: () {
+                      mainLayoutCubit.addToCart(mainLayoutCubit.productsList[index].id!);
+                    },
+
                     listMainLayoutResponseEntity:
                     mainLayoutCubit.productsList[index],
                   ),
