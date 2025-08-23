@@ -61,3 +61,11 @@ final class addToCartError extends MainLayoutState {
   addToCartError({required this.errorMessage});
 }
 
+class SearchErrorState extends MainLayoutState {}
+class SearchLoadingState extends MainLayoutState {}
+class SearchSuccessState extends MainLayoutState {
+  final List<ListMainLayoutResponseEntity> searchResults;
+  SearchSuccessState(this.searchResults);
+}
+
+

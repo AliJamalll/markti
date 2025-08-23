@@ -30,6 +30,7 @@ class BuildTextField extends StatefulWidget {
     this.onTap,
     this.maxLines,
     this.prefixIcon, this.borderBackgroundColor, this.suffixIcon,
+    this.onChanged
   });
 
   final TextEditingController? controller;
@@ -51,6 +52,7 @@ class BuildTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final String? Function(String?)? validation;
   final void Function()? onTap;
+  final Function(String)? onChanged;
 
   @override
   State<BuildTextField> createState() => _BuildTextFieldState();

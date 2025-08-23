@@ -20,11 +20,11 @@ import '../../features/auth/presentation/pages/verify_email_code_screen.dart';
 import '../../features/auth/presentation/pages/verify_phone_code_screen.dart';
 import '../../features/main_layout/domain/entities/main_layout_response_entity.dart';
 import '../../features/main_layout/presentation/pages/categories_page.dart';
+import '../../features/main_layout/presentation/pages/search_screen.dart';
 
-class RouteGenerator{
-  static Route<dynamic> getRoute(RouteSettings settings){
-    switch(settings.name){
-
+class RouteGenerator {
+  static Route<dynamic> getRoute(RouteSettings settings) {
+    switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(builder: (_) => SplashScreen());
 
@@ -37,8 +37,8 @@ class RouteGenerator{
       case Routes.signUp:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
 
-    // case Routes.forgetPasswordPhone:
-    // return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      // case Routes.forgetPasswordPhone:
+      // return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
 
       case Routes.forgetPasswordEmail:
         return MaterialPageRoute(builder: (_) => ForgetPasswordByEmailScreen());
@@ -49,10 +49,11 @@ class RouteGenerator{
           builder: (_) => VerifyEmailCodeScreen(email: email),
         );
 
-
       case Routes.CreateNewPassword:
         final email = settings.arguments as String?;
-        return MaterialPageRoute(builder: (_) => CreateNewPasswordScreen(email: email!));
+        return MaterialPageRoute(
+          builder: (_) => CreateNewPasswordScreen(email: email!),
+        );
 
       case Routes.Congratulations:
         return MaterialPageRoute(builder: (_) => CongratulationsScreen());
@@ -60,49 +61,46 @@ class RouteGenerator{
       case Routes.mainLayout:
         return MaterialPageRoute(builder: (_) => MainLayout());
 
-    // case Routes.homePage:
-    // return MaterialPageRoute(builder: (_) => HomePage());
-
-    // ✅ Correct - preserves arguments
+      // ✅ Correct - preserves arguments
       case Routes.popular_products:
         return MaterialPageRoute(
           builder: (_) => const PopularProducts(),
           settings: settings, // This is crucial!
         );
 
-        case Routes.categories:
-        return MaterialPageRoute(builder: (_) => CategoriesPage(),
-        settings: settings
+      case Routes.categories:
+        return MaterialPageRoute(
+          builder: (_) => CategoriesPage(),
+          settings: settings,
         );
 
-        case Routes.brands:
-        return MaterialPageRoute(builder: (_) => BrandPage(),
-        settings: settings
+      case Routes.brands:
+        return MaterialPageRoute(
+          builder: (_) => BrandPage(),
+          settings: settings,
         );
 
-        case Routes.buyAgain:
+      case Routes.buyAgain:
         return MaterialPageRoute(builder: (_) => BuyAgainPage());
 
-        case Routes.checkOut:
+      case Routes.checkOut:
         return MaterialPageRoute(builder: (_) => CheckOutPage());
 
-    // case Routes.searchPage:
-    // return MaterialPageRoute(builder: (_) => SearchPage());
+      case Routes.searchPage:
+        return MaterialPageRoute(builder: (_) => SearchScreen());
 
       default:
         return unDefinedRoute();
     }
-
   }
+
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
-      builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: const Text('No Route Found'),
-        ),
-        body: const Center(child: Text('No Route Found')),
-      ),
+      builder:
+          (_) => Scaffold(
+            appBar: AppBar(title: const Text('No Route Found')),
+            body: const Center(child: Text('No Route Found')),
+          ),
     );
   }
-
 }

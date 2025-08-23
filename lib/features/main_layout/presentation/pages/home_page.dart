@@ -106,16 +106,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSearchBar() {
-    return BuildTextField(
-      prefixIcon: Icon(Icons.search),
-      suffixIcon: Icon(Icons.filter_alt),
-      hint: "What are you looking for ?",
-      labelTextStyle: textStyles.font12grayRegular,
-      backgroundColor: appColors.KPwhite,
-      borderBackgroundColor: appColors.KPnavy,
-      textInputType: TextInputType.text,
+    return GestureDetector(
+      onTap: () {
+        // هنا تكتب اللي يحصل لما المستخدم يضغط
+        print("Search bar clicked");
+        Navigator.pushNamed(context, Routes.searchPage);
+
+        // مثلا: Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: appColors.KPwhite,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: appColors.KPnavy, width: 1.2),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.search, color: appColors.KPnavy),
+            SizedBox(width: 8),
+            Text(
+              "What are you looking for ?",
+              style: textStyles.font12grayRegular,
+            ),
+            Spacer(),
+            Icon(Icons.filter_alt, color: appColors.KPnavy),
+          ],
+        ),
+      ),
     );
   }
+
 
   Widget _buildPopularProductsSection(MainLayoutState state) {
     final isLoading = state is getProductsLoading;

@@ -111,8 +111,6 @@ class MainLayoutRemoteDataSourceImpl implements MainLayoutRemoteDateSource{
   @override
   Future<Either<Failure, BrandResponseDm>> getAllBrands() async{
     try{
-      final List<ConnectivityResult> connectivityResult = await Connectivity().checkConnectivity();
-      if(connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile)){
         var response = await apiManager.getData(endPoint: EndPoints.getAllBrands,
         headers: {
           "Authorization" : "Bearer ${await secureStorage.read(key: "token")}",
@@ -126,13 +124,7 @@ class MainLayoutRemoteDataSourceImpl implements MainLayoutRemoteDateSource{
             statusCode: response.statusCode.toString(),
           ));
         }
-      }else{
-        ///no internet connection
-        return Left(ServerFailure(
-          message: "Please check your internet connection",
-          statusCode: "No Internet Connection",
-        ));
-      }
+
     }on DioException catch(dioException){
       return Left(
         ServerFailure(

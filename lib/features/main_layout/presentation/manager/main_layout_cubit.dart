@@ -28,6 +28,8 @@ class MainLayoutCubit extends Cubit<MainLayoutState> {
   List<CategoryListEntity> categoriesList = [];
   List<BrandListResponseEntity> brandsList = [];
   int numOfItem = 0;
+  List<ListMainLayoutResponseEntity> searchResults = [];
+
 
 
   Future<void> ToggleTheme(bool isDarkMode) async {
@@ -126,5 +128,29 @@ class MainLayoutCubit extends Cubit<MainLayoutState> {
       print("✅ Add to cart success with productId: $productId");
     });
   }
+
+
+  void searchProducts(String query) {
+    emit(SearchLoadingState());
+
+    try {
+      List<ListMainLayoutResponseEntity> filtered;
+
+      if (query.isEmpty) {
+        filtered = productsList;
+      } else {
+        filtered = productsList
+            .where((product) =>
+        product.title != null &&
+            product.title!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+
+      emit(SearchSuccessState(filtered));
+    } catch (e) {
+      emit(SearchErrorState());
+    }
+  }
+
 
 }
